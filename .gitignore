@@ -1,0 +1,38 @@
+# Environment variables
+.env
+*.env.local
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+
+# AWS
+*credentials*
+*.pem
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node.js (sample-app)
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# Docker
+*.log
+
+# Temporary files
+tmp/
+temp/

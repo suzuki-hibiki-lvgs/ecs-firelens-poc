@@ -1,0 +1,39 @@
+{
+    "mcpServers": {
+        "serena": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/oraios/serena",
+                "serena",
+                "start-mcp-server"
+            ],
+            "env": {}
+        },
+        "awslabs.aws-api-mcp-server": {
+            "command": "uvx",
+            "args": [
+                "awslabs.aws-api-mcp-server@latest"
+            ],
+            "env": {
+                "AWS_REGION": "ap-northeast-1",
+                "AWS_PROFILE": "lt-system-dev"
+            }
+        },
+        "aws-knowledge-mcp-server": {
+            "type": "http",
+            "url": "https://knowledge-mcp.global.api.aws"
+        },
+        "terraform": {
+            "type": "stdio",
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "hashicorp/terraform-mcp-server"
+            ],
+            "env": {}
+        }
+    }
+}

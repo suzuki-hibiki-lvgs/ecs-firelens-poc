@@ -1,0 +1,50 @@
+# ===========================================
+# ECS FireLens PoC - Local Development
+# ===========================================
+# ECS FireLens構成のローカルシミュレーション
+# fluentd logging driverを使用してFluent Bitにログを転送
+
+services:
+  # Fluent Bit - ログルーター（ECS FireLensのサイドカーを模倣）
+  fluent-bit:
+    image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+    container_name: fluent-bit
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ./fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+    ports:
+      - "24224:24224"     # Forward input (fluentd protocol)
+      - "24224:24224/udp"
+    networks:
+      - firelens-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2020/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Sample App - テストログ生成アプリ
+  sample-app:
+    build:
+      context: ./sample-app
+      dockerfile: Dockerfile
+    container_name: sample-app
+    depends_on:
+      fluent-bit:
+        condition: service_healthy
+    environment:
+      - ENVIRONMENT=local
+      - SERVICE_NAME=sample-app
+    # fluentd logging driverでFluent Bitにログを転送（ECS FireLens模倣）
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: app-firelens-{{.ID}}
+        fluentd-async: "true"
+    networks:
+      - firelens-network
+
+networks:
+  firelens-network:
+    driver: bridge
