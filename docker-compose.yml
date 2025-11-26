@@ -16,9 +16,18 @@ services:
       - "24224:24224"     # Forward input (fluentd protocol)
       - "24224:24224/udp"
     environment:
-      # New Relic 送信用（Phase 2）
+      # New Relic 送信用
       - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
       - ENVIRONMENT=${ENVIRONMENT:-local}
+      # AWS認証情報（Firehose送信用）
+      # SSO使用時は事前に以下を実行:
+      # eval $(aws configure export-credentials --profile lt-system-dev --format env)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      - AWS_REGION=${AWS_REGION:-ap-northeast-1}
+      # Firehose Delivery Stream名
+      - FIREHOSE_DELIVERY_STREAM=${FIREHOSE_DELIVERY_STREAM:-firelens-poc-dev-stream}
     networks:
       - firelens-network
     healthcheck:
