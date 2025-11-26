@@ -9,13 +9,13 @@ resource "aws_kinesis_firehose_delivery_stream" "logs" {
   destination = "extended_s3"
 
   extended_s3_configuration {
-    role_arn   = var.firehose_role_arn
-    bucket_arn = var.s3_bucket_arn
+    role_arn   = aws_iam_role.firehose.arn
+    bucket_arn = aws_s3_bucket.logs.arn
 
     # バッファリング設定
     # Trade-off: 小さいバッファ=低レイテンシだがファイル数増加、大きいバッファ=高レイテンシだがファイル数削減
-    buffering_size     = var.buffering_size_mb      # MB単位（1-128）
-    buffering_interval = var.buffering_interval_sec # 秒単位（60-900）
+    buffering_size     = var.buffering_size_mb
+    buffering_interval = var.buffering_interval_sec
 
     # GZIP圧縮（S3ストレージコスト削減、Athenaクエリ効率向上）
     compression_format = "GZIP"

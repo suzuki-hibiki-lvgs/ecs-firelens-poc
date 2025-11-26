@@ -1,6 +1,7 @@
 # =============================================================================
-# ECS Module Variables
+# App Module Variables
 # =============================================================================
+# ECS Cluster/Service/Task Definition + IAMロールを統合したモジュールの入力変数
 
 # -----------------------------------------------------------------------------
 # 基本設定
@@ -20,6 +21,11 @@ variable "aws_region" {
   type        = string
 }
 
+variable "aws_account_id" {
+  description = "AWSアカウントID"
+  type        = string
+}
+
 # -----------------------------------------------------------------------------
 # ネットワーク設定
 # -----------------------------------------------------------------------------
@@ -31,19 +37,6 @@ variable "vpc_id" {
 variable "subnet_ids" {
   description = "ECSタスクを配置するサブネットIDのリスト"
   type        = list(string)
-}
-
-# -----------------------------------------------------------------------------
-# IAMロール
-# -----------------------------------------------------------------------------
-variable "ecs_task_execution_role_arn" {
-  description = "ECSタスク実行ロールのARN（ECRプル、CloudWatch Logs書き込み用）"
-  type        = string
-}
-
-variable "ecs_task_role_arn" {
-  description = "ECSタスクロールのARN（Firehose PutRecord用）"
-  type        = string
 }
 
 # -----------------------------------------------------------------------------
@@ -90,10 +83,15 @@ variable "log_interval_ms" {
 }
 
 # -----------------------------------------------------------------------------
-# Fluent Bit設定
+# Fluent Bit / ログ連携設定
 # -----------------------------------------------------------------------------
+variable "firehose_delivery_stream_arn" {
+  description = "Kinesis Firehose Delivery StreamのARN（Task Roleに権限付与用）"
+  type        = string
+}
+
 variable "firehose_delivery_stream_name" {
-  description = "Kinesis Firehose Delivery Stream名"
+  description = "Kinesis Firehose Delivery Stream名（Fluent Bit設定用）"
   type        = string
 }
 
