@@ -341,16 +341,16 @@ terraform.tfstate.backup
 
 **Template Usage:**
 * Use `.github/pull_request_template.md` for all PRs
-* Must be in **English**
+* Must be in **日本語**
 * **Required Sections:**
-  - **Summary:** Brief overview of changes
-  - **Motivation & Context (Why?):** Explain the problem being solved and why this change is necessary
-  - **Implementation Details (How?):** High-level technical approach and key architectural decisions
+  - **Summary（概要）:** 変更の簡潔な説明
+  - **Motivation & Context（動機・背景）:** 解決する問題と変更が必要な理由
+  - **Implementation Details（実装詳細）:** 技術的アプローチと主要なアーキテクチャ決定
 
 **Quality Standards:**
-* Focus on **WHY** (motivation) over **WHAT** (code changes)
-* Highlight trade-offs and technical decisions made
-* Self-review before requesting review from others
+* **WHAT**（何を）より **WHY**（なぜ）を重視する
+* トレードオフと技術的な判断を明記する
+* レビュー依頼前にセルフレビューを実施する
 
 ---
 
