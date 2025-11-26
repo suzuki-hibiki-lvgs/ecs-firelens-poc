@@ -1,6 +1,7 @@
 # Environment variables
 .env
 *.env.local
+.envrc
 
 # Terraform
 .terraform/
