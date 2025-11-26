@@ -19,3 +19,9 @@ variable "aws_region" {
   type        = string
   default     = "ap-northeast-1"
 }
+
+variable "newrelic_license_key" {
+  description = "New Relic License Key"
+  type        = string
+  sensitive   = true
+}
