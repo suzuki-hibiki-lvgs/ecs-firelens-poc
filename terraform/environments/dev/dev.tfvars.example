@@ -1,0 +1,9 @@
+# =============================================================================
+# Dev Environment Variables Example
+# =============================================================================
+# このファイルをコピーして dev.tfvars を作成してください
+# cp dev.tfvars.example dev.tfvars
+
+project     = "firelens-poc"
+environment = "dev"
+aws_region  = "ap-northeast-1"
