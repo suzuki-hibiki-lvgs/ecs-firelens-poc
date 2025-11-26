@@ -26,3 +26,16 @@ output "firehose_role_arn" {
   description = "Firehose用IAMロールのARN"
   value       = module.iam.firehose_role_arn
 }
+
+# -----------------------------------------------------------------------------
+# ECR Outputs
+# -----------------------------------------------------------------------------
+output "ecr_sample_app_repository_url" {
+  description = "sample-app ECRリポジトリURL"
+  value       = module.ecr_sample_app.repository_url
+}
+
+output "ecr_fluent_bit_repository_url" {
+  description = "fluent-bit ECRリポジトリURL"
+  value       = module.ecr_fluent_bit.repository_url
+}
