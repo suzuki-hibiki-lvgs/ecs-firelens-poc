@@ -1,71 +1,6 @@
 # =============================================================================
-# ECS Module for FireLens PoC
+# ECS Task Definition & Service
 # =============================================================================
-# ECS Cluster, Task Definition (with FireLens sidecar), Service, Security Group
-
-# -----------------------------------------------------------------------------
-# ECS Cluster
-# -----------------------------------------------------------------------------
-resource "aws_ecs_cluster" "this" {
-  name = "${var.project}-${var.environment}-cluster"
-
-  setting {
-    name  = "containerInsights"
-    value = var.enable_container_insights ? "enabled" : "disabled"
-  }
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.project}-${var.environment}-cluster"
-    }
-  )
-}
-
-# -----------------------------------------------------------------------------
-# CloudWatch Log Groups
-# -----------------------------------------------------------------------------
-resource "aws_cloudwatch_log_group" "app" {
-  name              = "/ecs/${var.project}-${var.environment}/app"
-  retention_in_days = var.log_retention_days
-
-  tags = var.tags
-}
-
-resource "aws_cloudwatch_log_group" "firelens" {
-  name              = "/ecs/${var.project}-${var.environment}/firelens"
-  retention_in_days = var.log_retention_days
-
-  tags = var.tags
-}
-
-# -----------------------------------------------------------------------------
-# Security Group
-# -----------------------------------------------------------------------------
-resource "aws_security_group" "ecs_tasks" {
-  name        = "${var.project}-${var.environment}-ecs-tasks-sg"
-  description = "Security group for ECS tasks"
-  vpc_id      = var.vpc_id
-
-  # Egress: 全てのアウトバウンド通信を許可
-  # - ECRからのイメージプル
-  # - New Relic APIへのログ送信
-  # - Firehoseへのログ送信
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound traffic"
-  }
-
-  tags = merge(
-    var.tags,
-    {
-      Name = "${var.project}-${var.environment}-ecs-tasks-sg"
-    }
-  )
-}
 
 # -----------------------------------------------------------------------------
 # ECS Task Definition
@@ -76,8 +11,8 @@ resource "aws_ecs_task_definition" "this" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  execution_role_arn       = var.ecs_task_execution_role_arn
-  task_role_arn            = var.ecs_task_role_arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+  task_role_arn            = aws_iam_role.ecs_task.arn
 
   container_definitions = jsonencode([
     # Fluent Bit Sidecar (FireLens)

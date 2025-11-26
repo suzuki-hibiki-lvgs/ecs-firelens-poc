@@ -2,29 +2,32 @@
 # Dev Environment Outputs
 # =============================================================================
 
+# -----------------------------------------------------------------------------
+# Logging Outputs
+# -----------------------------------------------------------------------------
 output "s3_bucket_name" {
   description = "ログ保存用S3バケットの名前"
-  value       = module.s3.bucket_id
+  value       = module.logging.bucket_name
 }
 
 output "s3_bucket_arn" {
   description = "ログ保存用S3バケットのARN"
-  value       = module.s3.bucket_arn
+  value       = module.logging.bucket_arn
 }
 
 output "firehose_delivery_stream_name" {
   description = "Firehose Delivery Streamの名前"
-  value       = module.firehose.delivery_stream_name
+  value       = module.logging.delivery_stream_name
 }
 
 output "firehose_delivery_stream_arn" {
   description = "Firehose Delivery StreamのARN"
-  value       = module.firehose.delivery_stream_arn
+  value       = module.logging.delivery_stream_arn
 }
 
 output "firehose_role_arn" {
   description = "Firehose用IAMロールのARN"
-  value       = module.iam.firehose_role_arn
+  value       = module.logging.firehose_role_arn
 }
 
 # -----------------------------------------------------------------------------
@@ -41,26 +44,26 @@ output "ecr_fluent_bit_repository_url" {
 }
 
 # -----------------------------------------------------------------------------
-# ECS Outputs
+# App Outputs
 # -----------------------------------------------------------------------------
 output "ecs_cluster_name" {
   description = "ECSクラスタの名前"
-  value       = module.ecs.cluster_name
+  value       = module.app.cluster_name
 }
 
 output "ecs_service_name" {
   description = "ECSサービスの名前"
-  value       = module.ecs.service_name
+  value       = module.app.service_name
 }
 
 output "ecs_task_definition_arn" {
   description = "タスク定義のARN"
-  value       = module.ecs.task_definition_arn
+  value       = module.app.task_definition_arn
 }
 
 output "ecs_security_group_id" {
   description = "ECSタスク用セキュリティグループのID"
-  value       = module.ecs.security_group_id
+  value       = module.app.security_group_id
 }
 
 # -----------------------------------------------------------------------------

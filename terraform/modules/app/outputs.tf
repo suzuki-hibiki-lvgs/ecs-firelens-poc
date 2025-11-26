@@ -1,5 +1,5 @@
 # =============================================================================
-# ECS Module Outputs
+# App Module Outputs
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -65,4 +65,17 @@ output "app_log_group_name" {
 output "firelens_log_group_name" {
   description = "FireLensログ用CloudWatch Log Groupの名前"
   value       = aws_cloudwatch_log_group.firelens.name
+}
+
+# -----------------------------------------------------------------------------
+# IAM Roles
+# -----------------------------------------------------------------------------
+output "task_execution_role_arn" {
+  description = "ECSタスク実行ロールのARN"
+  value       = aws_iam_role.ecs_task_execution.arn
+}
+
+output "task_role_arn" {
+  description = "ECSタスクロールのARN"
+  value       = aws_iam_role.ecs_task.arn
 }
