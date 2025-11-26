@@ -27,6 +27,12 @@ variable "s3_bucket_arn" {
   type        = string
 }
 
+variable "firehose_delivery_stream_arn" {
+  description = "Firehose Delivery StreamのARN（ECSタスクロールに必要）"
+  type        = string
+  default     = ""
+}
+
 variable "enable_cloudwatch_logging" {
   description = "CloudWatch Logsへのログ出力を有効にするかどうか"
   type        = bool
