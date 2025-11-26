@@ -15,6 +15,10 @@ services:
     ports:
       - "24224:24224"     # Forward input (fluentd protocol)
       - "24224:24224/udp"
+    environment:
+      # New Relic 送信用（Phase 2）
+      - NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+      - ENVIRONMENT=${ENVIRONMENT:-local}
     networks:
       - firelens-network
     healthcheck:
